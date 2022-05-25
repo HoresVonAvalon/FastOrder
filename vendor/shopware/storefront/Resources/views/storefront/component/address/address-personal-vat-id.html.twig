@@ -1,0 +1,27 @@
+{% block component_account_register_personal_vat_id_field %}
+    {% if formViolations.getViolations("/vatIds") is not empty %}
+        {% set violationPath = "/vatIds" %}
+    {% endif %}
+
+    {% block component_address_form_company_vatId_label %}
+        <label class="form-label"
+               for="vatIds">
+            {{ "address.companyVatLabel"|trans|sw_sanitize }}
+        </label>
+    {% endblock %}
+
+    {% block component_address_form_company_vatId_input %}
+        <input type="text"
+               class="form-control{% if violationPath %} is-invalid{% endif %}"
+               id="vatIds"
+               placeholder="{{ "address.companyVatPlaceholder"|trans|striptags }}"
+               name="vatIds[]"
+               value="{{ activeRoute == 'frontend.account.profile.page' or (feature('FEATURE_NEXT_15957') and activeRoute == 'frontend.account.addressbook' and context.customer.guest) ? vatIds[0] : vatIds.get(0) }}">
+    {% endblock %}
+
+    {% block component_address_form_company_vatId_input_error %}
+        {% if violationPath %}
+            {% sw_include '@Storefront/storefront/utilities/form-violation.html.twig' %}
+        {% endif %}
+    {% endblock %}
+{% endblock %}

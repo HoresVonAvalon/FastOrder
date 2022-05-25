@@ -1,0 +1,21 @@
+<?php declare(strict_types=1);
+
+namespace Shopware\Core\Checkout\Payment\Exception;
+
+use Shopware\Core\Framework\ShopwareHttpException;
+
+class ValidatePreparedPaymentException extends ShopwareHttpException
+{
+    public function __construct(string $errorMessage)
+    {
+        parent::__construct(
+            'The validation process of the prepared payment was interrupted due to the following error:' . \PHP_EOL . '{{ errorMessage }}',
+            ['errorMessage' => $errorMessage]
+        );
+    }
+
+    public function getErrorCode(): string
+    {
+        return 'CHECKOUT__VALIDATE_PREPARED_PAYMENT_ERROR';
+    }
+}

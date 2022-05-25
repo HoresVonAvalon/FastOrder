@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  shop:
+    container_name: FastOrder
+    image: dockware/dev:latest
+    ports:
+      - "22:22"     # ssh
+      - "80:80"     # apache2
+      - "443:443"   # apache2 https
+      - "8888:8888" # watch admin
+      - "9998:9998" # watch storefront proxy
+      - "9999:9999" # watch storefront
+      - "3306:3306" # mysql port
+    networks:
+      - web
+    environment:
+      - XDEBUG_ENABLED=1
+      - SHOPWARE_HTTP_CACHE_ENABLED=0
+
+networks:
+  web:
+    external: false
